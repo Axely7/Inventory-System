@@ -22,7 +22,7 @@ const resolvers={
             try{
                 //Guardarlo en la base de datos
                 const usuario = new Usuario(input);
-                usuario.saver();
+                usuario.save();
                 return usuario;
 
             }catch(error){
