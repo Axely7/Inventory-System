@@ -10,11 +10,21 @@
   "author": "Axel Jimenez",
   "license": "ISC",
   "dependencies": {
-    "apollo-server": "^3.0.2",
+    "apollo-server": "^3.1.2",
+    "bcryptjs": "^2.4.3",
     "dotenv": "^10.0.0",
+    "graphql": "^15.5.1",
     "mongoose": "^5.13.7"
   },
   "devDependencies": {
     "nodemon": "^2.0.12"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Axely7/Inventory-System.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Axely7/Inventory-System/issues"
+  },
+  "homepage": "https://github.com/Axely7/Inventory-System#readme"
 }

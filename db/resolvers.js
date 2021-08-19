@@ -1,4 +1,5 @@
-const Usuario = require('../models/Usuario')
+const Usuario = require('../models/Usuario');
+const bcryptjs = require('bcryptjs');
 
 // Resolvers
 const resolvers={
@@ -17,6 +18,8 @@ const resolvers={
                 throw new Error('El usuario ya está registrado');
             }
             //Hashear su password
+            const salt = await bcryptjs.genSalt(10);
+            input.password = await bcryptjs.hash(password, salt);
 
             
             try{
@@ -28,6 +31,21 @@ const resolvers={
             }catch(error){
                 console.log(error);
             }
+        },
+        autenticarUsuario:async (_, {input}) =>{
+            
+            const {email, password} = input;
+
+            //Si el usuario existe
+            const existUsuario = await Usuario.findOne({email});
+            if(!existeUsuario){
+                throw new Error('El usuario no existe');
+            }
+
+            //Revisar si el password es correcto
+
+
+            //Crear el token
         }
     }
         
