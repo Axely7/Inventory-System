@@ -1,4 +1,5 @@
 const Usuario = require('../models/Usuario');
+const Producto = require('../models/Producto');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path: 'variables.env'});
@@ -7,14 +8,28 @@ const crearToken = (usuario, secreta, expiresIn) => {
     //console.log(usuario);
     const {id, email, nombre, apellido} = usuario;
 
-    return jwt.sign({id, email, nombre, apellido,}, secreta, {expiresIn})
+    return jwt.sign({id, email, nombre, apellido}, secreta, {expiresIn})
 }
 
 
 // Resolvers
 const resolvers={
     Query:{
-            obtenerCurso: () => "Algo"
+            obtenerUsuario: async (_, {token}) =>{
+                const usuarioId = await jwt.verify(token, process.env.SECRETA) /*Verifica el token*/
+
+                return usuarioId
+            },
+
+            obtenerProductos: async() =>{
+                try{
+                    const productos = await Producto.find({});
+                    return productos;
+
+                }catch(error){
+                    console.log(error);
+                }
+            }
     },
     Mutation:{
         nuevoUsuario: async (_, { input }) => {
@@ -61,6 +76,21 @@ const resolvers={
             //Crear el token
             return{
                 token: crearToken(existeUsuario, process.env.SECRETA, '24h') /*Al día siguiente tendrían que iniciar sesión*/
+            }
+        },
+
+        nuevoProducto: async(_, {input}) =>{
+            try{
+                const nuevoProducto = new Producto(input);
+
+                //Almacenar en la base de datos:
+
+                const resultado = await nuevoProducto.save();
+
+                return resultado;
+
+            } catch(error){
+                console.log(error);
             }
         }
     }
