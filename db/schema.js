@@ -51,6 +51,7 @@ const typeDefs = gql`
         #Productos
         #Con los corchetes regresa TODOS los productos
         obtenerProductos: [Producto] 
+        obtenerProducto(id: ID!): Producto 
     }
 
     type Mutation{
@@ -60,6 +61,11 @@ const typeDefs = gql`
 
         #Productos
         nuevoProducto(input: ProductoInput): Producto
+        actualizarProducto(id: ID!, input: ProductoInput): Producto
+        eliminarProducto(id: ID!): String
+
+        #Clientes
+        
     }
 `;
 

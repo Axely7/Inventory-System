@@ -1,5 +1,6 @@
 const Usuario = require('../models/Usuario');
 const Producto = require('../models/Producto');
+const Cliente = require('../models/Cliente');
 const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 require('dotenv').config({path: 'variables.env'});
@@ -29,6 +30,16 @@ const resolvers={
                 }catch(error){
                     console.log(error);
                 }
+            },
+            obtenerProducto: async (_, {id}) =>{
+                //Revisar si el producto existe
+                const producto = await Producto.findById(id);
+
+                if(!producto){
+                    throw new Error('Producto no encontrado');
+                }
+
+                return producto;
             }
     },
     Mutation:{
@@ -92,6 +103,35 @@ const resolvers={
             } catch(error){
                 console.log(error);
             }
+        },
+
+        actualizarProducto: async(_, {id, input}) => {
+            // Revisar si el producto existe o no
+            let producto = await Producto.findById(id);
+
+            if(!producto){
+                throw new Error('Producto no encontrado');
+            }
+
+            //Guardarlo en la base de datos
+            producto = await Producto.findOneAndUpdate({_id: id}, input, {new: true}); //Encuentra y actualiza en la misma linea
+
+            return producto
+        },
+
+        eliminarProducto: async(_, {id}) =>{
+            // Revisar si el producto existe o no
+            let producto = await Producto.findById(id);
+
+            if(!producto){
+                throw new Error('Producto no encontrado');
+            }
+
+            //Eliminar
+
+            await Producto.findByIdAndDelete({_id: id});
+
+            return "Producto Eliminado";
         }
     }
         
