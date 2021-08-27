@@ -24,4 +24,6 @@ const ProductosSchema = mongoose.Schema({
 });
 
 
+ProductosSchema.index({nombre: 'text'}); //Para realizar busqueda por producto
+
 module.exports = mongoose.model('Producto', ProductosSchema);

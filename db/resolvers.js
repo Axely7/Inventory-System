@@ -116,6 +116,63 @@ const resolvers={
                 const pedidos = await Pedido.find({vendedor: ctx.usuario.id, estado})
 
                 return pedidos;
+            },
+
+            mejoresClientes: async() =>{
+                const clientes = await Pedido.aggregate([
+                    { $match: {estado:"COMPLETADO"}},
+                    { $group: {
+                        _id:"$cliente", //Nombre del modelo en minuscula
+                        total: {$sum: '$total'}
+                    }},
+                    {
+                        $lookup:{
+                            from:'clientes',
+                            localField: '_id',
+                            foreignField: "_id",
+                            as: "cliente"
+                        }
+                    },
+                    {
+                        $limit: 10 //Los mejores 10 clientes
+                    },
+                    {
+                        $sort:{ total:-1 }
+                    }
+                ]);
+
+                return clientes;
+            },
+
+            mejoresVendedores: async () =>{
+                const vendedores = await Pedido.aggregate([
+                    { $match:{estado:"COMPLETADO"}},
+                    { $group: {
+                        _id:"$vendedor",
+                        total: {$sum:'$total'}
+                    }},
+                    {
+                        $lookup:{
+                            from: 'usuarios',
+                            localField: '_id',
+                            foreignField: '_id',
+                            as: 'vendedor'
+                        }
+                    },
+                    {
+                        $limit: 3 //Los mejores 3 vendedores
+                    },
+                    {
+                        $sort:{total:-1}
+                    }
+                ]);
+
+                return vendedores;
+            },
+
+            buscarProducto: async(_, {texto}) =>{
+                const productos = await Producto.find({ $text:{$search:texto}}).limit(10) //retorna los primeros 10 productos
+                return productos;
             }
 
     },
