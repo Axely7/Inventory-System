@@ -2,8 +2,10 @@ import React, {useState} from 'react';
 import Layout from '../components/Layout';
 import {FormikProvider, useFormik} from 'formik';
 import * as Yup from 'yup';
-import { gql, useMutation} from '@apollo/client';
+import { gql, useMutation, useQuery} from '@apollo/client';
 import {useRouter} from 'next/router';
+
+
 
 const AUTENTICAR_USUARIO = gql `
     mutation autenticarUsuario($input: AutenticarInput){
@@ -14,6 +16,7 @@ const AUTENTICAR_USUARIO = gql `
 `;
 
 
+
 const Login = () =>{
     // routing
     const router = useRouter();
@@ -22,7 +25,7 @@ const Login = () =>{
 
     // Mutation para crear nuevo usuarios en apollo
     const [autenticarUsuario] = useMutation(AUTENTICAR_USUARIO);
-
+    //const {client} = useQuery(OBTENER_USUARIO);
 
     const formik = useFormik({
         initialValues:{
