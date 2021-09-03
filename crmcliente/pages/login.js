@@ -4,6 +4,7 @@ import {FormikProvider, useFormik} from 'formik';
 import * as Yup from 'yup';
 import { gql, useMutation, useQuery} from '@apollo/client';
 import {useRouter} from 'next/router';
+import client from '@apollo/client';
 
 
 

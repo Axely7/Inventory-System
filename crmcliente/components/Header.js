@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { useQuery, gql } from '@apollo/client';
 import {useRouter} from 'next/router';
+import client from '@apollo/client'
 
 
 const OBTENER_USUARIO = gql`
@@ -18,7 +19,7 @@ const Header = () =>{
     const router = useRouter();
 
     // Query de apollo
-    const {client, data, loading, error} = useQuery(OBTENER_USUARIO);
+    const {data, loading, error} = useQuery(OBTENER_USUARIO);
     // console.log(data);
     // console.log(loading);
     // console.log(error);
@@ -36,7 +37,6 @@ const Header = () =>{
 
     const cerrarSesion = () =>{
         localStorage.removeItem('token');
-        client.resetStore();
         router.push('/login');
     }
 
