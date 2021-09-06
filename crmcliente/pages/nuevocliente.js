@@ -111,8 +111,6 @@ const NuevoCliente = () =>{
     }
     
 
-
-
     return(
         <Layout>
             <h1 className="text-2xl text-gray-800 font-light">Nuevo Cliente</h1>
@@ -165,7 +163,7 @@ const NuevoCliente = () =>{
                         { formik.touched.empresa && formik.errors.empresa ?(
                                 <div className="my-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-4">
                                     <p className="font-bold">Error</p>
-                                    <p>{formik.error.empresa}</p>
+                                    <p>{formik.errors.empresa}</p>
                                 </div>
                             ): null}
 
