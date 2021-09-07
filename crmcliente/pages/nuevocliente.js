@@ -200,7 +200,7 @@ const NuevoCliente = () =>{
                                     <p className="font-bold">Error</p>
                                     <p>{formik.errors.telefono}</p>
                                 </div>
-                            ): null}
+                        ): null}
 
 
                         <input type="submit" className="bg-gray-800 w-full mt-5 p-2 text-white uppercase font-bold hover:bg-gray-900 cursor-pointer" value="Registrar Cliente"></input>
