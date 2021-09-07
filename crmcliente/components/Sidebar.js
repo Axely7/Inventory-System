@@ -31,7 +31,7 @@ const Sidebar = () =>{
                 <li className={router.pathname === "/productos" ? "bg-blue-500 p-2" : "p-2"}>
                     <Link href="/productos">
                         <a className="text-white block">
-                            Pedidos
+                            Productos
                         </a>
                     </Link>
                 </li>
