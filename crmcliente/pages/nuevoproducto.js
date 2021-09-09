@@ -2,8 +2,56 @@ import React from 'react';
 import Layout from '../components/Layout';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
+import {gql, useMutation} from '@apollo/client';
+import Swal from 'sweetalert2';
+import {useRouter} from 'next/router';
+
+const NUEVO_PRODUCTO = gql `
+    mutation nuevoProducto($input: ProductoInput){
+        nuevoProducto(input: $input){
+            id
+            nombre
+            existencia
+            precio
+        }
+    }
+`;
+
+const OBTENER_PRODUCTOS = gql `
+    query obtenerProductos{
+        obtenerProductos{
+        id
+        nombre
+        precio
+        existencia
+        }
+    }
+`;
+
+
 
 const NuevoProducto = () =>{
+
+    //Routing
+    const router = useRouter();
+
+    // Mutation de apollo
+    const [nuevoProducto] = useMutation(NUEVO_PRODUCTO, {
+        update(cache, {data: {nuevoProducto}}){
+            //obtener objeto de cache
+            const {obtenerProductos} = cache.readQuery({query: OBTENER_PRODUCTOS});
+
+
+            //reecribir este objeto
+            cache.writeQuery({
+                query: OBTENER_PRODUCTOS,
+                data:{
+                    obtenerProductos: [...obtenerProductos, nuevoProducto]
+                }
+            })
+        }
+    });
+
 
     //Formulario para nuevos productos
     const formik = useFormik({
@@ -20,7 +68,34 @@ const NuevoProducto = () =>{
             precio: Yup.number()
                     .required('El precio es obligatorio')
                     .positive('No se aceptan números negativos')
-        })
+        }),
+        onSubmit: async valores =>{
+            const {nombre, existencia, precio} = valores;
+
+            try {
+                const {data} = await nuevoProducto({
+                    variables:{
+                        input:{
+                            nombre, existencia, precio
+                        }
+                    }
+                });
+                //console.log(data);
+
+                //Mostrar una alerta
+                Swal.fire(
+                    'Creado',
+                    'Se creó el producto correctamente',
+                    'success'
+                )
+
+
+                //Redireccionar hacia los productos
+                router.push('/productos');
+            } catch (error) {
+                console.log(error);
+            }
+        }
     });
 
 
