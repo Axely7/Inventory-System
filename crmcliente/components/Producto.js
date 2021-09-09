@@ -83,7 +83,7 @@ const Producto = ({producto}) =>{
 
     const editarProducto = () =>{
         Router.push({
-            pathname: "/editarproducto/[id]",
+            pathname: "/editarproducto/{id}",
             query: {id}
         })
     }

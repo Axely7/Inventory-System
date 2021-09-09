@@ -29,8 +29,6 @@ const ACTUALIZAR_CLIENTE = gql`
 `;
 
 
-
-
 const EditarCliente = () =>{
     // obtener el ID actual
     const router = useRouter();
