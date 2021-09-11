@@ -10,7 +10,6 @@ const NuevoPedido = () =>{
     const pedidoContext = useContext(PedidoContext);
     const {holaMundoEnUseReducer} = pedidoContext;
 
-    holaMundoEnUseReducer();
 
     return(
         <Layout>
