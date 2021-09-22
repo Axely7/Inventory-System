@@ -55,8 +55,10 @@ const Login = () =>{
                 guardarMensaje('Autenticando...');
 
                 // Guardar el token en localstorage
-                const {token} = data.autenticarUsuario;
-                localStorage.setItem('token', token);
+                setTimeout(() =>{
+                    const {token} = data.autenticarUsuario;
+                    localStorage.setItem('token', token);
+                }, 1000)
 
                 // Redireccionar hacia clientes
                 setTimeout(() =>{
